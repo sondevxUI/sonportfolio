@@ -9,7 +9,9 @@
 <body>
     <header class="site-header">
         <div class="sidebar">
-            <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+            <button class="menu-toggle" aria-label="Toggle navigation" type="button">
+                <span></span>
+            </button>
             <a class="logo" href="#home">Peterson Mwirigi</a>
             <nav class="site-nav" aria-expanded="false">
                 <ul>
@@ -233,6 +235,7 @@
         var menuToggle = document.querySelector('.menu-toggle');
         menuToggle.addEventListener('click', function () {
             nav.classList.toggle('open');
+            menuToggle.classList.toggle('open');
             var expanded = nav.classList.contains('open');
             nav.setAttribute('aria-expanded', expanded);
         });
