@@ -24,7 +24,7 @@
             </nav>
         </div>
         <div class="main-content">
-            <section id="home" class="hero">
+            <section id="home" class="hero page active">
                 <div class="hero-inner">
                     <div class="hero-text">
                         <h1>Hi — I'm Peterson.</h1>
@@ -38,7 +38,7 @@
                 </div>
             </section>
 
-        <section id="cv" class="section">
+        <section id="cv" class="section page">
             <div class="container">
                 <h2>Download my CV</h2>
                 <p>You can download a PDF version of my CV below.</p>
@@ -48,7 +48,7 @@
             <a href="#home" class="home-btn">↑ Home</a>
         </section>
 
-        <section id="services" class="section">
+        <section id="services" class="section page">
             <div class="container">
                 <h2>Services</h2>
                 <div class="cards">
@@ -77,7 +77,7 @@
             <a href="#home" class="home-btn">↑ Home</a>
         </section>
 
-        <section id="petersonportfolio" class="section alt">
+        <section id="petersonportfolio" class="section alt page">
             <div class="container">
                 <h2>About Me</h2>
                 <p>Get to know me better. I'm a passionate developer with a love for creating innovative solutions.</p>  
@@ -130,7 +130,7 @@
             <a href="#home" class="home-btn">↑ Home</a>
         </section>
 
-        <section id="projects" class="section">
+        <section id="projects" class="section page">
             <div class="container">
                 <h2>Projects</h2>
                 <div class="project-grid">
@@ -151,7 +151,7 @@
             <a href="#home" class="home-btn">↑ Home</a>
         </section>
 
-        <section id="contact" class="section alt">
+        <section id="contact" class="section page alt">
             <div class="container">
                 <h2>Contacts</h2>
                 <p>Reach out to me via any of the platforms below</p>
@@ -248,34 +248,48 @@
             });
         });
 
-        // Active link tracking with scroll
-        const sections = document.querySelectorAll('section[id]');
+        // Page navigation
+        const pages = document.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('.site-nav a');
+        let currentPage = 'home';
 
-        function updateActiveLink() {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-
+        function showPage(pageId) {
+            // Hide all pages
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.add('active');
+                currentPage = pageId;
+                window.scrollTo(0, 0);
+            }
+            
+            // Update active link
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
+                if (link.getAttribute('href').slice(1) === pageId) {
                     link.classList.add('active');
                 }
             });
         }
 
-        window.addEventListener('scroll', updateActiveLink, { passive: true });
-        updateActiveLink();
+        // Navigation link handling
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('href').slice(1);
+                showPage(pageId);
+            });
+        });
 
-        if (!window.location.hash) {
-            window.history.replaceState(null, '', window.location.pathname + '#petersonportfolio');
-        }
+        // Home button handling
+        document.querySelectorAll('.home-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('home');
+            });
+        });
 
         // Contact form
         function handleContact(e) {
@@ -283,20 +297,6 @@
             alert('Thanks — form submission is not configured in this demo.');
             e.target.reset();
         }
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        });
     </script>
 </body>
 </html>
